@@ -1,8 +1,8 @@
 <?php
 	define("DB_SERVER", "us-cdbr-iron-east-04.cleardb.net");
-	define("DB_USER", "b504718ed4bcac");
-	define("DB_PASS", "af6c6511");
-	define("DB_NAME", "heroku_bc0dad0dfe44fdf");
+	define("DB_USER", "b9565f77379fad");
+	define("DB_PASS", "7b88fb7b");
+	define("DB_NAME", "heroku_774b72170d79475");
         
     $dbconn = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 
@@ -19,4 +19,5 @@
       $query = "SET CHARACTER SET utf8";
       $result = mysqli_query($dbconn, $query);
   }
+  
 ?>

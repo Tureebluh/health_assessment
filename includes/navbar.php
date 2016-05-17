@@ -14,7 +14,7 @@
                         <?php 
                                 if( isset( $_SESSION["admin"]) ){
                                     if($_SESSION["admin"] == 1 ) {
-                                        include("../includes/admin_li.php");
+                                        include("includes/admin_li.php");
                                     }
                                 }
                         ?>

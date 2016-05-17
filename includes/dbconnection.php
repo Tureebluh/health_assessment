@@ -1,8 +1,8 @@
 <?php
-	define("DB_SERVER", "localhost");
-	define("DB_USER", "health_assessment");
-	define("DB_PASS", "YbXxxFULHxDsSHWp");
-	define("DB_NAME", "health_assessment");
+	define("DB_SERVER", "us-cdbr-iron-east-04.cleardb.net");
+	define("DB_USER", "b504718ed4bcac");
+	define("DB_PASS", "af6c6511");
+	define("DB_NAME", "heroku_bc0dad0dfe44fdf");
         
     $dbconn = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME);
 

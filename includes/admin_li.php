@@ -1,0 +1,1 @@
+<li><a href="new_disease.php">Admin Panel</a></li>

@@ -1,0 +1,176 @@
+/************************
+*
+* HTML/HEADER/BODY/FOOTER
+*
+*************************/
+body {
+	margin-bottom: 2em;
+}
+.footer {
+	position: absolute;
+	margin-bottom: 0em;
+	min-width: 100%;
+	height: 2em;
+	background-color: black;
+}
+
+
+/************************
+*
+*       JUMBOTRON
+*
+*************************/
+.jumbotron {
+	color: #F0F0F0;
+	padding-top: 2em;
+	background: transparent;
+}
+.jumbotron > h1 {
+	text-align: left;
+	padding-left: 2em;
+}
+.jumbotron > p {
+	text-align: right;
+	padding-top: 2em;
+	padding-right: 6em;
+}
+
+
+/************************
+*
+*    LOGIN/REG FORM
+*
+*************************/
+.login {
+	max-width: 80em;
+}
+.form-signin {
+	max-width: 23em;
+	margin: 10em auto;
+	padding: 1em;
+	padding-top: 0.1em;
+	background: white;
+}
+.form-signin-heading {
+	font-style: "Georgia", serif;
+	font-weight: bold;
+	color: rgb(40, 130, 220);
+	text-align: center;
+	padding: 0.3em;
+}
+.checkbox {
+	font-weight: normal;
+	color: rgb(40, 130, 220);
+}
+.form-signin .form-control {
+	position: relative;
+	height: auto;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;  
+	font-size: 16px;
+}
+.form-signin .form-control:focus {
+	z-index: 2;
+}
+.form-signin input[type="email"] {
+	margin-bottom: -1px;
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+.form-signin > .link {
+	padding-top: 1em;
+	text-align: center;
+}
+a:link {
+        text-decoration: none;
+}
+
+
+/************************
+*
+*       NAVIGATION
+*
+*************************/
+.navbar {
+	background-color: rgb(224,224,224);
+}
+.navbar-header {
+	font-family: "Georgia", serif;
+	margin-top: -1.0em;
+}
+.user_display {
+	padding-top: 0.5em;
+	padding-right: 0.5em;
+	font-family: "Georgia", serif;
+	font-size: 1.5em;
+}
+#user_dropdown {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    padding-left: 1em;
+}
+
+
+/**************************
+*
+*     BS/DISEASE PANEL
+*
+**************************/
+.dropdown_panel {
+        margin-top: 9.2em;
+        min-height: 30em;
+	background: rgba(81, 183, 219, 0.6);
+}
+.bs_dropdown {
+	margin-top: 1em;
+}
+
+
+/************************
+*
+*      CONTENT PANEL
+*
+*************************/
+.content_panel {
+	max-width: 100%;
+	background: rgba(81, 183, 219, 0);
+}
+.disease_info {
+        font-style: "Georgia", serif;
+	font-weight: bold;
+        background: rgba(1, 1, 1, 0);   
+}
+.disease_info h1 {
+        color: #321414;
+        text-align: center;
+        font-size: 5em;
+}
+.disease_info th {
+        background: rgba(1, 1, 1, .5);
+        text-align: center;
+        color: #F0F0F0;
+}
+.disease_info tr {
+        background: rgba(1, 1, 1, .5);
+}
+
+
+/************************
+*
+*    NEW DISEASE FORM
+*
+*************************/
+.create_disease {
+    
+}
+.create_disease h1 {
+    text-align: center;
+}
+

@@ -18,14 +18,17 @@
     }
 
     function disease_dropdown_list( $diseases=[] ) {
-        $result = "";
+        $result = "<option value=\"default\">Select disease</option>";
+        $temp = "";
 
         if ( !empty($diseases) ){
 
             foreach($diseases as $disease) {
                     $result .= "<option value=\"{$disease["disease_id"]}\">{$disease["disease_name"]}</option>";
             }
-            return $result;
+            $temp = $result;
+            $result = "";
+            return $temp;
         }
     }
 
@@ -171,6 +174,18 @@
     function create_disease($body_system, $disease_name, $subjective, $objective, $icd_codes, $labs, 
             $diagnostics, $referral, $medication, $patient_ed, $follow_up) {
         global $dbconn;
+        
+        $body_system = mysql_prep($_POST["body_system"]);
+        $disease_name = mysql_prep($_POST["disease_name"]);
+        $subjective = mysql_prep($_POST["subjective"]);
+        $objective = mysql_prep($_POST["objective"]);
+        $icd_codes = mysql_prep($_POST["icd_codes"]);
+        $labs = mysql_prep($_POST["labs"]);
+        $diagnostics = mysql_prep($_POST["diagnostics"]);
+        $referral = mysql_prep($_POST["referral"]);
+        $medication = mysql_prep($_POST["medication"]);
+        $patient_ed = mysql_prep($_POST["patient_ed"]);
+        $follow_up = mysql_prep($_POST["follow_up"]);
         
         $query = "INSERT INTO diseases (";
         $query .= "disease_name, subjective, objective, icd_codes, labs, ";
@@ -377,10 +392,13 @@
 
     function attempt_login($email, $password) {
         
-        $user = find_user_by_email($email);
+        $safe_email = mysql_prep($email);
+        $safe_password = mysql_prep($password);
+            
+        $user = find_user_by_email($safe_email);
         if($user){
                 //Found user. Check password.
-                if(password_check($password, $user["password"])) {
+                if(password_check($safe_password, $user["password"])) {
                         //password matches
                         return $user;
                 } else {
@@ -392,13 +410,17 @@
         }
     }
 
-    function attempt_registration($username, $email, $password){
+    function attempt_registration($username, $email, $password) {
 
+        $safe_username = mysql_prep($username);
+        $safe_email = mysql_prep($email);
+        $safe_password = mysql_prep($password);
+                
         $user = find_user_by_email($email);
 
         if(!$user){
                 //No user found by email
-                if( register_user($username, $email, $password) ) {
+                if( register_user($safe_username, $safe_email, $safe_password) ) {
                         //success
                         return true;
                 } else {

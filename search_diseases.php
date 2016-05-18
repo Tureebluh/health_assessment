@@ -19,25 +19,15 @@
 
 <div class="container-fluid">   
     <div class="row">
-        <div class="container-fluid panel dropdown_panel pull-left col-lg-3 col-md-3 col-sm-3 col-xs-12">
+        <div class="container-fluid panel dropdown_panel pull-left col-lg-3 col-md-3 col-sm-3 col-xs-12" id="ddPanel">
 
-            <?php	 
-                    include("includes/body_systems.php");
-
-                    if( isset($_POST["bodySystem"]) || isset($_POST["disease"]) ){
-                            include("includes/diseases.php");	
-                    }
-            ?>
+            <?php include("includes/body_systems.php"); ?>
 
         </div>
 
-        <div class="container-fluid panel content_panel pull-right col-lg-9 col-md-9 col-sm-9 col-xs-12">
+        <div class="container-fluid panel content_panel pull-right col-lg-9 col-md-9 col-sm-9 col-xs-12" id="contentPanel">
 
-            <?php	 
-                    if( isset($_POST["disease"]) ){
-                        include("includes/disease_assessment.php");
-                    }
-            ?>
+            
 
         </div>
     </div>

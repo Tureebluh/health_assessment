@@ -2,51 +2,44 @@
 <?php require_once("includes/dbconnection.php") ?>
 <?php require_once("includes/functions.php") ?>
 <?php
+        // If user is NOT logged in
 	if( !isset( $_SESSION["logged_in"]) ){
 		redirect_to("index.php");
 	}
-	
-	if( !isset( $_SESSION["admin"]) ){
-		redirect_to("index.php");
-        if(!$_SESSION["admin"] == 1 ) {
+	// If user is NOT an admin
+	if( !isset( $_SESSION["admin"]) ) {
             redirect_to("index.php");
+            // If user has admin, check for correct value
+            if(!$_SESSION["admin"] == 1 ) {
+                redirect_to("index.php");
+            }
         }
-    }
 ?>
 <?php
+        // If user attemps to create disease
 	if( isset( $_POST["create_disease"]) ){
-            
-                $body_system = mysql_prep($_POST["body_system"]);
-		$disease_name = mysql_prep($_POST["disease_name"]);
-		$subjective = mysql_prep($_POST["subjective"]);
-		$objective = mysql_prep($_POST["objective"]);
-		$icd_codes = mysql_prep($_POST["icd_codes"]);
-		$labs = mysql_prep($_POST["labs"]);
-		$diagnostics = mysql_prep($_POST["diagnostics"]);
-		$referral = mysql_prep($_POST["referral"]);
-		$medication = mysql_prep($_POST["medication"]);
-		$patient_ed = mysql_prep($_POST["patient_ed"]);
-		$follow_up = mysql_prep($_POST["follow_up"]);
-		
-		if ( !empty($disease_name) && !empty($subjective) && !empty($objective) && !empty($icd_codes) && !empty($labs) && !empty($diagnostics)
-				&& !empty($referral) && !empty($medication) && !empty($patient_ed) && !empty($follow_up) ) {
-			
-			$result = create_disease($body_system, $disease_name, $subjective, $objective, $icd_codes, $labs, $diagnostics, $referral, $medication, $patient_ed, $follow_up);
-                        if ( $result ){
-                            $success["successful"] = "Successfully created disease.";
-                            $errors = array();
-                        } else {
-                            $errors["failed"] = "Failed to create new disease.";
-                            $success = array();
-                        }
-                    
-		} else {
-			
-			$errors["not_empty"] = "All fields are required.";
-                        $success = array();
-			
-		}
-            
+	    // Make sure fields are NOT blank
+            if ( !empty($disease_name) && !empty($subjective) && !empty($objective) && !empty($icd_codes) && !empty($labs) && !empty($diagnostics)
+                            && !empty($referral) && !empty($medication) && !empty($patient_ed) && !empty($follow_up) ) {
+
+                $result = create_disease($body_system, $disease_name, $subjective, $objective,
+                        $icd_codes, $labs, $diagnostics, $referral, $medication, $patient_ed, $follow_up);
+                // If result is TRUE
+                if ( $result ){
+                    // Clear errors array and add success message to success array
+                    $success["successful"] = "Successfully created disease.";
+                    $errors = array();
+                } else {
+                    // Clear success array and add error message to errors array
+                    $errors["failed"] = "Failed to create new disease.";
+                    $success = array();
+                    }
+            } else {
+                // If a field has been left blank, display message to user
+                // and clear success array
+                $errors["not_empty"] = "All fields are required.";
+                $success = array();
+            }
 	} else {
 		$errors = array();
                 $success = array();
@@ -67,24 +60,24 @@
 <div class="container create_disease">
     <form method="post">
         <h1>Create New Disease</h1>
-        
+        <!-- Display error/success message(s) to user -->
         <?php echo form_errors($errors);?>
         <?php echo form_success($success);?>
         
         <div class="form-group">
             <label for="bodySystem">Body System:</label>
             <select class="form-control" name="body_system">
-				<option value="1">Cardiac</option>
-				<option value="2">Dermatology</option>
-				<option value="3">Endocrine</option>
-				<option value="4">GI</option>
-				<option value="5">HEENT</option>
-				<option value="6">Musculoskeletal</option>
-				<option value="7">Neurological</option>
-				<option value="8">Psych</option>
-				<option value="9">Reproductive</option>
-				<option value="10">Respiratory</option>
-				<option value="11">Health Maintenance</option>
+                <option value="1">Cardiac</option>
+                <option value="2">Dermatology</option>
+                <option value="3">Endocrine</option>
+                <option value="4">GI</option>
+                <option value="5">HEENT</option>
+                <option value="6">Musculoskeletal</option>
+                <option value="7">Neurological</option>
+                <option value="8">Psych</option>
+                <option value="9">Reproductive</option>
+                <option value="10">Respiratory</option>
+                <option value="11">Health Maintenance</option>
             </select>
         </div>
         

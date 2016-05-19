@@ -5,6 +5,7 @@
         <group>
             <file>file:/C:/wamp64/www/health_assessment/registration.php</file>
             <file>file:/C:/wamp64/www/health_assessment/includes/functions.php</file>
+            <file>file:/C:/wamp64/www/health_assessment/includes/dbconnection.php</file>
             <file>file:/C:/wamp64/www/health_assessment/index.php</file>
         </group>
     </open-files>

@@ -15,36 +15,7 @@
             }
         }
 ?>
-<?php
-        // If user attemps to create disease
-	if( isset( $_POST["create_disease"]) ){
-	    // Make sure fields are NOT blank
-            if ( !empty($disease_name) && !empty($subjective) && !empty($objective) && !empty($icd_codes) && !empty($labs) && !empty($diagnostics)
-                            && !empty($referral) && !empty($medication) && !empty($patient_ed) && !empty($follow_up) ) {
 
-                $result = create_disease($body_system, $disease_name, $subjective, $objective,
-                        $icd_codes, $labs, $diagnostics, $referral, $medication, $patient_ed, $follow_up);
-                // If result is TRUE
-                if ( $result ){
-                    // Clear errors array and add success message to success array
-                    $success["successful"] = "Successfully created disease.";
-                    $errors = array();
-                } else {
-                    // Clear success array and add error message to errors array
-                    $errors["failed"] = "Failed to create new disease.";
-                    $success = array();
-                    }
-            } else {
-                // If a field has been left blank, display message to user
-                // and clear success array
-                $errors["not_empty"] = "All fields are required.";
-                $success = array();
-            }
-	} else {
-		$errors = array();
-                $success = array();
-	}
-?>
 
 <?php include("includes/header.php") ?>
 
@@ -59,14 +30,12 @@
 
 <div class="container create_disease">
     <form method="post">
-        <h1>Create New Disease</h1>
-        <!-- Display error/success message(s) to user -->
-        <?php echo form_errors($errors);?>
-        <?php echo form_success($success);?>
+        <h1 id="newDiseaseLbl">Create New Disease</h1>
         
         <div class="form-group">
-            <label for="bodySystem">Body System:</label>
-            <select class="form-control" name="body_system">
+            <label for="newBodySystem" class="sr-only">Body System</label>
+            <select class="form-control" name="body_system" id="newBodySystem" onchange="getDiseasesNew(this.value)">
+                <option value="default">Select System</option>
                 <option value="1">Cardiac</option>
                 <option value="2">Dermatology</option>
                 <option value="3">Endocrine</option>
@@ -82,56 +51,56 @@
         </div>
         
         <div class="form-group">
-            <label for="disease_name">Disease Name:</label>
-            <input class="form-control" name="disease_name" placeholder="Disease name" type="text">
+            <label for="disease_name" class="sr-only">Disease Name</label>
+            <input class="form-control" name="disease_name" id="disease_name" placeholder="Disease name" type="text">
         </div>
         
         <div class="form-group">
-            <label for="subjective">Subjective:</label>
-            <input class="form-control" name="subjective" placeholder="Subjective" type="text">
+            <label for="subjective" class="sr-only">Subjective</label>
+            <input class="form-control" name="subjective" id="subjective" placeholder="Subjective" type="text">
         </div>
         
         <div class="form-group">    
-            <label for="objective">Objective:</label>
-            <input class="form-control" name="objective" placeholder="Objective" type="text">
+            <label for="objective" class="sr-only">Objective</label>
+            <input class="form-control" name="objective" id="objective" placeholder="Objective" type="text">
         </div>
         
         <div class="form-group">
-            <label for="icd_codes">ICD-10 Codes:</label>
-            <input class="form-control" name="icd_codes" placeholder="ICD-10 Codes" type="text">
+            <label for="icd_codes" class="sr-only">ICD-10 Codes</label>
+            <input class="form-control" name="icd_codes" id="icd_codes" placeholder="ICD-10 Codes" type="text">
         </div>
         
         <div class="form-group">
-            <label for="labs">Labs:</label>
-            <input class="form-control" name="labs" placeholder="Labs" type="text">
+            <label for="labs" class="sr-only">Labs</label>
+            <input class="form-control" name="labs" id="labs" placeholder="Labs" type="text">
         </div>
         
         <div class="form-group">
-            <label for="diagnostics">Diagnostics:</label>
-            <input class="form-control" name="diagnostics" placeholder="Diagnostics" type="text">
+            <label for="diagnostics" class="sr-only">Diagnostics</label>
+            <input class="form-control" name="diagnostics" id="diagnostics" placeholder="Diagnostics" type="text">
         </div>
         
         <div class="form-group">
-            <label for="referral">Referrals:</label>
-            <input class="form-control" name="referral" placeholder="Referral" type="text">
+            <label for="referral" class="sr-only">Referrals</label>
+            <input class="form-control" name="referral" id="referral" placeholder="Referral" type="text">
         </div>
         
         <div class="form-group">
-            <label for="medication">Medications:</label>
-            <input class="form-control" name="medication" placeholder="Medications" type="text">
+            <label for="medication" class="sr-only">Medications</label>
+            <input class="form-control" name="medication" id="medication" placeholder="Medications" type="text">
         </div>
         
         <div class="form-group">
-            <label for="patient_ed">Patient Education:</label>
-            <input class="form-control" name="patient_ed" placeholder="Patient Education" type="text">
+            <label for="patient_ed" class="sr-only">Patient Education</label>
+            <input class="form-control" name="patient_ed" id="patient_ed" placeholder="Patient Education" type="text">
         </div>
         
         <div class="form-group">
-            <label for="follow_up">Follow-up:</label>
-            <input class="form-control" name="follow_up" placeholder="Follow-up" type="text">
+            <label for="follow_up" class="sr-only">Follow-up</label>
+            <input class="form-control" name="follow_up" id="follow_up" placeholder="Follow-up" type="text">
         </div>
         
-        <input class="btn btn-danger pull-right" type="submit" value="Create Disease" name="create_disease">
+        <input type="button" class="btn btn-danger pull-right" value="Create Disease" name="create_disease" id="createDiseaseBtn" onclick="createDisease()">
     </form>
 </div>
 

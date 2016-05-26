@@ -4,7 +4,7 @@
 <?php   
         //If user has already logged in
 	if( isset( $_SESSION["logged_in"]) ){
-		redirect_to("search.php");
+		redirect_to("search_diseases.php");
 	}
 ?>
 <?php 

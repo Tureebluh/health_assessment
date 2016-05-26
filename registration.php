@@ -4,7 +4,7 @@
 <?php
         //If user IS logged in
 	if( isset( $_SESSION["logged_in"]) ){
-		redirect_to("search.php");
+		redirect_to("search_diseases.php");
 	}
 ?>
 <?php
@@ -47,21 +47,21 @@
     <?php echo form_errors($errors);?>
 
     <div class="form-group">
-            <label class="sr-only" for="inputUsername">Display name:</label>
-            <input type="text" class="form-control" name="inputUsername" placeholder="Username" value="" required autofocus>
+            <label class="sr-only" for="inputUsername">Display name</label>
+            <input type="text" class="form-control" name="inputUsername" placeholder="Display name" value="" required autofocus>
     </div>
 
     <div class="form-group">
-            <label class="sr-only" for="inputEmail">Email address:</label>
+            <label class="sr-only" for="inputEmail">Email address</label>
             <input type="email" class="form-control" name="inputEmail" placeholder="Email" value="" required>
     </div>
 
     <div class="form-group">
-            <label class="sr-only" for="inputPassword">Password:</label>
+            <label class="sr-only" for="inputPassword">Password</label>
             <input type="password" class="form-control" name="inputPassword" placeholder="Password" required>
     </div>
 
-    <button class="btn btn-lg btn-primary btn-block" value="submit" "name="submit" type="submit">Submit</button>
+    <button class="btn btn-lg btn-primary btn-block" value="submit" name="submit" type="submit">Submit</button>
 
     </form>
 	

@@ -22,14 +22,13 @@
         $temp = "";
 
         if ( !empty($diseases) ){
-
             foreach($diseases as $disease) {
-                    $result .= "<option value=\"{$disease["disease_id"]}\">{$disease["disease_name"]}</option>";
+                $result .= "<option id=\"disease_id\" value=\"{$disease["disease_id"]}\">{$disease["disease_name"]}</option>";
             }
-            $temp = $result;
-            $result = "";
-            return $temp;
         }
+        $temp = $result;
+        $result = "";
+        return $temp;
     }
 
     function disease_info( $disease=[] ) {
@@ -175,24 +174,24 @@
             $diagnostics, $referral, $medication, $patient_ed, $follow_up) {
         global $dbconn;
         
-        $body_system = mysql_prep($_POST["body_system"]);
-        $disease_name = mysql_prep($_POST["disease_name"]);
-        $subjective = mysql_prep($_POST["subjective"]);
-        $objective = mysql_prep($_POST["objective"]);
-        $icd_codes = mysql_prep($_POST["icd_codes"]);
-        $labs = mysql_prep($_POST["labs"]);
-        $diagnostics = mysql_prep($_POST["diagnostics"]);
-        $referral = mysql_prep($_POST["referral"]);
-        $medication = mysql_prep($_POST["medication"]);
-        $patient_ed = mysql_prep($_POST["patient_ed"]);
-        $follow_up = mysql_prep($_POST["follow_up"]);
+        $safe_body_system = mysql_prep($body_system);
+        $safe_disease_name = mysql_prep($disease_name);
+        $safe_subjective = mysql_prep($subjective);
+        $safe_objective = mysql_prep($objective);
+        $safe_icd_codes = mysql_prep($icd_codes);
+        $safe_labs = mysql_prep($labs);
+        $safe_diagnostics = mysql_prep($diagnostics);
+        $safe_referral = mysql_prep($referral);
+        $safe_medication = mysql_prep($medication);
+        $safe_patient_ed = mysql_prep($patient_ed);
+        $safe_follow_up = mysql_prep($follow_up);
         
-        $query = "INSERT INTO diseases (";
+        $query  = "INSERT INTO diseases (";
         $query .= "disease_name, subjective, objective, icd_codes, labs, ";
         $query .= "diagnostics, referral, medication, patient_ed, follow_up";
         $query .= ") VALUES (";
-        $query .= "'{$disease_name}','{$subjective}','{$objective}','{$icd_codes}','{$labs}',";
-        $query .= "'{$diagnostics}','{$referral}','{$medication}','{$patient_ed}','{$follow_up}'";
+        $query .= "'{$safe_disease_name}','{$safe_subjective}','{$safe_objective}','{$safe_icd_codes}','{$safe_labs}',";
+        $query .= "'{$safe_diagnostics}','{$safe_referral}','{$safe_medication}','{$safe_patient_ed}','{$safe_follow_up}'";
         $query .= ")";
         
         $result = mysqli_query($dbconn, $query);
@@ -207,6 +206,49 @@
                 return false;
             }
         //Disease insert failed    
+        } else {
+            return false;
+        }
+        
+    }
+    
+    function edit_disease($disease_id, $disease_name, $subjective, $objective, $icd_codes, $labs, 
+            $diagnostics, $referral, $medication, $patient_ed, $follow_up) {
+        
+        global $dbconn;
+        
+        $safe_body_system = mysql_prep($body_system);
+        $safe_disease_name = mysql_prep($disease_name);
+        $safe_subjective = mysql_prep($subjective);
+        $safe_objective = mysql_prep($objective);
+        $safe_icd_codes = mysql_prep($icd_codes);
+        $safe_labs = mysql_prep($labs);
+        $safe_diagnostics = mysql_prep($diagnostics);
+        $safe_referral = mysql_prep($referral);
+        $safe_medication = mysql_prep($medication);
+        $safe_patient_ed = mysql_prep($patient_ed);
+        $safe_follow_up = mysql_prep($follow_up);
+        
+        $query  = "UPDATE diseases ";
+        $query .= "SET disease_name='{$safe_disease_name}', ";
+        $query .= "subjective='{$safe_subjective}', ";
+        $query .= "objective='{$safe_objective}', ";
+        $query .= "icd_codes='{$safe_icd_codes}', ";
+        $query .= "labs='{$safe_labs}', ";
+        $query .= "diagnostics='{$safe_diagnostics}', ";
+        $query .= "referral='{$safe_referral}', ";
+        $query .= "medication='{$safe_medication}', ";
+        $query .= "patient_ed='{$safe_patient_ed}', ";
+        $query .= "follow_up='{$safe_follow_up}' ";
+        $query .= "WHERE disease_id='{$disease_id}'";
+        
+        
+        $result = mysqli_query($dbconn, $query);
+        
+        //Disease update success
+        if( $result ){
+                return true;
+        //Disease update failed    
         } else {
             return false;
         }
@@ -321,6 +363,28 @@
             mysqli_free_result($disease_set);
             mysqli_close($dbconn);
             return $disease_info;
+        } else {
+            mysqli_free_result($disease_set);
+            return false;
+        }
+    }
+    
+    function find_disease_by_id_json($disease_id) {
+        global $dbconn;
+
+        //Escape any queries
+        $safe_id = mysql_prep($disease_id);
+
+        $query  = "SELECT disease_id, disease_name, subjective, objective, icd_codes, labs, diagnostics, referral, medication, patient_ed, follow_up ";
+        $query .= "FROM diseases ";
+        $query .= "WHERE disease_id = '{$safe_id}' ";
+        
+        $disease_set = mysqli_query($dbconn, $query);
+
+        if( $disease_info = mysqli_fetch_assoc($disease_set) ) {
+            mysqli_free_result($disease_set);
+            mysqli_close($dbconn);
+            return json_encode($disease_info);
         } else {
             mysqli_free_result($disease_set);
             return false;

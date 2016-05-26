@@ -1,6 +1,6 @@
 <form class="form-vertical">
 	<h2 class="bs_heading">Body System</h2>
-        <select class="form-control bs_dropdown" name="bodySystem" id="bodySystem" onchange="getDiseases(this.value)">
+        <select class="form-control bs_dropdown" name="bodySystem" id="searchBodySystem" onchange="getDiseases(this.value)">
                 <option value="default">Select System</option>
 		<option value="1">Cardiac</option>
 		<option value="2">Dermatology</option>

@@ -2,15 +2,20 @@
  * Declare GLOBAL variables
  ******************************************************************************/
 var getDiseasesCount = 0;
+var getDiseasesNewCount = 0;
 var getDiseaseInfoCount = 0;
-
+var getDiseaseInfoNewCount = 0;
+var formKeys = [];
+var formData;
+var successString = "";
+var failString = "";
 /*******************************************************************************
  * Perform AJAX request to dynamically populate disease drop down
  ******************************************************************************/
 function getDiseases(bodySystem) {
     
     $.ajax({
-        url: "includes/diseases.php?q=" + bodySystem,
+        url: "includes/diseasesDD.php?q=" + bodySystem,
         type: "GET",
     }).always(function (data) {
         if (getDiseasesCount < 1) {
@@ -19,7 +24,32 @@ function getDiseases(bodySystem) {
         } else {
             $(".diseasesDD").empty();
             $("#ddPanel").append(data);
-            console.log(data);
+        }
+        
+    });
+}
+/*******************************************************************************
+ * Perform AJAX request to dynamically populate disease drop down
+ ******************************************************************************/
+function getDiseasesNew(bodySystem) {
+    
+    if( $("#createDiseaseBtn").val() == "Edit Disease" ){
+        $("#createDiseaseBtn").val("Create Disease");
+        $("#newDiseaseLbl").text("Create New Disease");
+    }
+    
+    $.ajax({
+        url: "includes/diseasesDD_new.php?q=" + bodySystem,
+        type: "GET",
+    }).always(function (data) {
+        if (getDiseasesNewCount < 1) {
+            $("#newBodySystem").after(data);
+            getDiseasesNewCount++;
+        } else {
+            $(".diseasesDD_new").empty();
+            clearFormNew();
+            $("#newBodySystem").after(data);
+            
         }
         
     });
@@ -43,3 +73,162 @@ function getDiseaseInfo(bodySystem) {
         }
     });   
 }
+/*******************************************************************************
+ * AJAX event handler for populating disease info from database. Information is
+ * dynamically sent to PHP using URL parameters I.e '?q='
+ * Data is returned as JSON object and parsed
+ ******************************************************************************/
+function getDiseaseInfoNew(diseaseId) {
+    
+    if( $("#newDiseaseDD").val() !== "default" ) {
+        $("#createDiseaseBtn").val("Edit Disease");
+        $("#newDiseaseLbl").text("Edit Disease");
+    } else {
+        $("#createDiseaseBtn").val("Create Disease");
+        $("#newDiseaseLbl").text("Create New Disease");
+    }
+    
+    $.ajax({
+        url: "includes/disease_assessment_new.php?q=" + diseaseId,
+        type: "GET",
+        dataType: "json"
+    }).always(function (data) {
+        if (getDiseaseInfoNewCount < 1) {
+            $.each(data, function(key, value){
+                if (key != "disease_id"){
+                    $("#" + key).val(value);
+                    formKeys.push(key);
+                    console.log(key + " " + value); 
+                }
+            });
+            getDiseaseInfoNewCount++;
+        } else {
+            clearFormNew();
+            if( $("#newDiseaseDD").val() !== "default" ) {
+                $.each(data, function(key, value){
+                    if (key != "disease_id") {
+                        $("#" + key).val(value);
+                        console.log(key + " " + value);
+                    }
+                });
+            }
+        }
+    });   
+}
+/*******************************************************************************
+ *  Clear values from form fields.   
+ ******************************************************************************/
+function clearFormNew(){
+    for(i = 0; i < formKeys.length; i++){
+        $("#" + formKeys[i]).val("");
+    } 
+}
+
+/*******************************************************************************
+ * url not right yet
+ ******************************************************************************/
+function createDisease(){
+    
+    formData = {
+        body_system: $("#newBodySystem").val(),
+        disease_id: $("#newDiseaseDD").val(),
+        disease_name: $("#disease_name").val(),
+        subjective: $("#subjective").val(),
+        objective: $("#objective").val(),
+        icd_codes: $("#icd_codes").val(),
+        labs: $("#labs").val(),
+        diagnostics: $("#diagnostics").val(),
+        referral: $("#referral").val(),
+        medication: $("#medication").val(),
+        patient_ed: $("#patient_ed").val(),
+        follow_up: $("#follow_up").val()
+    };
+    
+    if( $("#newDiseaseDD").val() !== "default" ) {
+        //editing a disease
+        editDisease();
+    } else {
+        //creating a disease
+        $.post(
+            "includes/create_disease.php",
+            formData
+        ).success(function () {
+            if(successString != "") {
+                $("#successMsg").remove();
+                successString = "";
+                successString += formatSuccess("Successfully created disease.");
+                $("#newDiseaseLbl").after(successString);
+                getDiseasesNew( $("#newBodySystem").val() );
+            } else {
+                successString += formatSuccess("Successfully created disease.");
+                $("#newDiseaseLbl").after(successString);
+                getDiseasesNew( $("#newBodySystem").val() );
+            }
+        }).fail(function (){
+            if(failString != "") {
+                $("#errorMsg").remove();
+                failString = "";
+                failString += formatError("Error: Creation unsuccessful.");
+                $("#newDiseaseLbl").after(failString);
+            } else {
+                failString += formatError("Error: Creation unsuccessful.");
+                $("#newDiseaseLbl").after(failString);
+            }
+        });
+    }
+}
+/*******************************************************************************
+ * 
+ ******************************************************************************/
+function editDisease(){
+    $.ajax({
+        url: "includes/edit_disease.php",
+        type: "POST",
+        data: formData,
+        cache: false
+    }).success(function () {
+        if(successString != "") {
+            $("#successMsg").remove();
+            successString = "";
+            successString += formatSuccess("Successfully edited disease.");
+            $("#newDiseaseLbl").after(successString);
+            getDiseasesNew( $("#newBodySystem").val() );
+        } else {
+            successString += formatSuccess("Successfully edited disease.");
+            $("#newDiseaseLbl").after(successString);
+            getDiseasesNew( $("#newBodySystem").val() );
+        }
+    }).fail(function () {
+        if(failString != "") {
+            $("#errorMsg").remove();
+            failString = "";
+            failString += formatError("Error: Edit unsuccessful.");
+            $("#newDiseaseLbl").after(failString);
+        } else {
+            failString += formatError("Error: Edit unsuccessful.");
+            $("#newDiseaseLbl").after(failString);
+        }
+    });
+}
+
+function formatSuccess(message){
+    var temp = "<div class=\"alert alert-success\" id=\"successMsg\">";
+    temp += message;
+    temp += "</div>";
+    
+    return temp;
+}
+function formatError(message){
+    var temp = "<div class=\"alert alert-danger\" id=\"errorMsg\">";
+    temp += message;
+    temp += "</div>";
+    
+    return temp;
+}
+
+$("#logout").click(function(e){
+    $.ajax({
+        url: "includes/logout.php",
+        type: "POST"
+    });
+});

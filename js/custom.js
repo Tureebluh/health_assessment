@@ -31,7 +31,6 @@ window.fbAsyncInit = function() {
 function statusChangeCallback(response) {
     if (response.status === 'connected') {
         // Logged into your app and Facebook.
-        console.log(response);
         $.ajax({
             url: "includes/login.php",
             type: "POST"

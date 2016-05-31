@@ -4,7 +4,7 @@
 <?php 
 
     $_SESSION["logged_in"] = true;
-    $_SESSION["email"] = $_POST["email"];
-    redirect_to("../search_diseases.php");
+    $_SESSION["email"] = $_POST["name"];
+    redirect_to("search_diseases.php");
 
 ?>

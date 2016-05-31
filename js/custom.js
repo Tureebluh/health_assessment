@@ -9,6 +9,7 @@ var formKeys = [];
 var formData;
 var successString = "";
 var failString = "";
+var email = "";
 /*******************************************************************************
  * Functions required for Facebook Login
  ******************************************************************************/
@@ -31,9 +32,13 @@ window.fbAsyncInit = function() {
 function statusChangeCallback(response) {
     if (response.status === 'connected') {
         // Logged into your app and Facebook.
+        FB.api('/me', function(userInfo){
+            email = { email: userInfo.email };
+        });
         $.ajax({
             url: "includes/login.php",
-            type: "POST"
+            type: "POST",
+            data: email
         }).fail(function () {
             
         });

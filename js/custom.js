@@ -32,7 +32,7 @@ window.fbAsyncInit = function() {
 function statusChangeCallback(response) {
     if (response.status === 'connected') {
         // Logged into your app and Facebook.
-        FB.api('/me', function(userInfo){
+        FB.api('/me', 'get', function(userInfo){
             name = { name: userInfo.name };
         });
         console.log(name);

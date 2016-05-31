@@ -35,7 +35,7 @@ function statusChangeCallback(response) {
         FB.api('/me', {fields: 'email'}, function(userInfo){
             email = { email: userInfo.email };
         });
-        
+        console.log(email);
         $.ajax({
             url: "includes/login.php",
             type: "POST",

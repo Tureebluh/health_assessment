@@ -13,6 +13,19 @@ var email = "";
 /*******************************************************************************
  * Functions required for Facebook Login
  ******************************************************************************/
+function statusChangeCallback(response) {
+    // Logged into app and Facebook.
+    if (response.status === 'connected') {
+        logInUser();
+    }
+}
+
+function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+}
+
 window.fbAsyncInit = function() {
     FB.init({
       appId      : '528323244039374',
@@ -29,28 +42,18 @@ window.fbAsyncInit = function() {
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-function statusChangeCallback(response) {
-    // Logged into app and Facebook.
-    if (response.status === 'connected') {
-        FB.api('/me?fields=email', function(userInfo){
-            email = { email: userInfo.email };
-        });
-        console.log(email);
+function logInUser(){
+    FB.api('/me', function(userInfo){
+        email = { email: userInfo.email };
         $.ajax({
             url: "includes/login.php",
             type: "POST",
             data: email
-        }).fail(function () {
-            
+        }).success(function () {
+            window.location.href = "search_diseases.php";
         });
-    }
-}
-function checkLoginState() {
-    FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
     });
 }
-
 /*******************************************************************************
  * Perform AJAX request to check if email is in use after user exits field
  ******************************************************************************/

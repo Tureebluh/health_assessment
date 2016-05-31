@@ -19,7 +19,7 @@
                     //Successful login
                     //Set SESSION variables respectively
                     $_SESSION["logged_in"] = true;
-                    $_SESSION["username"] = $found_user["username"];
+                    $_SESSION["email"] = $found_user["email"];
                     $_SESSION["admin"] = $found_user["admin"];
                     redirect_to("search_diseases.php");
             }else {
@@ -51,7 +51,7 @@
     <div class="container login">
 	
         <div class="jumbotron">
-                <h1>MyAssessment<small><sup>&trade;</sup></small></h1> 
+                <h1>HealthAssessment<small><sup>&trade;</sup></small></h1> 
                 <p>Up-to-date treatment guidelines, right at your fingertips.</p> 
         </div>
 
@@ -63,16 +63,22 @@
             <?php echo form_errors($errors);?>
 
             <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" name="inputEmail" class="form-control" placeholder="Email address" value="<?php echo htmlspecialchars($email); ?>" required autofocus>
+            <input type="email" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
 
             <label for="inputPassword" class="sr-only">Password</label>
             <input type="password" name="inputPassword" class="form-control" placeholder="Password" required>
 
             <button class="btn btn-lg btn-primary btn-block" value="submit" name="submit" type="submit">Sign In</button>
+            
+            <hr id="fbLogin">
+            
+            <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" size="xlarge" id="fbLogin">
+                Login with Facebook
+            </fb:login-button>
 
             <div class="link">
-                    Don't have an account? <br> 
-                    <a href="registration.php"> Sign up! It's free! ;) </a>
+                    <span id="registrationLink">Don't have an account? <br> 
+                        <a href="registration.php"> Sign up! It's free! ;) </a><span>
             </div>	
         </form>
     </div> <!-- /container -->

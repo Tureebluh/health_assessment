@@ -36,32 +36,25 @@
 <div class="container">
 	
     <div class="jumbotron">
-            <h1>MyAssessment<small><sup>&trade;</sup></small></h1> 
+            <h1>HealthAssessment<small><sup>&trade;</sup></small></h1> 
             <p>Providing quality resources for providers worldwide.</p> 
     </div>
 
     <form class="form-signin panel" method="post">
 
-    <h2 class="form-signin-heading">Registration</h2>
-
-    <?php echo form_errors($errors);?>
-
-    <div class="form-group">
-            <label class="sr-only" for="inputUsername">Display name</label>
-            <input type="text" class="form-control" name="inputUsername" placeholder="Display name" value="" required autofocus>
-    </div>
+    <h2 id="registrationHeader" class="form-signin-heading">Registration</h2>
 
     <div class="form-group">
             <label class="sr-only" for="inputEmail">Email address</label>
-            <input type="email" class="form-control" name="inputEmail" placeholder="Email" value="" required>
+            <input type="email" class="form-control" id="registrationEmail" name="inputEmail" placeholder="Email" autofocus required>
     </div>
 
     <div class="form-group">
             <label class="sr-only" for="inputPassword">Password</label>
-            <input type="password" class="form-control" name="inputPassword" placeholder="Password" required>
+            <input type="password" id="registrationPassword" class="form-control" name="inputPassword" placeholder="Password" required>
     </div>
 
-    <button class="btn btn-lg btn-primary btn-block" value="submit" name="submit" type="submit">Submit</button>
+    <button class="btn btn-lg btn-primary btn-block" value="submit" id="registrationBtn" name="submit" type="submit">Submit</button>
 
     </form>
 	

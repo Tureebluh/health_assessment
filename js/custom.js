@@ -10,6 +10,55 @@ var formData;
 var successString = "";
 var failString = "";
 /*******************************************************************************
+ * Functions required for Facebook Login
+ ******************************************************************************/
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '528323244039374',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+};
+
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+function statusChangeCallback(response) {
+    if (response.status === 'connected') {
+        // Logged into your app and Facebook.
+        console.log(response);
+        $.ajax({
+            url: "includes/login.php",
+            type: "POST"
+        }).fail(function () {
+            
+        });
+    }
+}
+function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+}
+
+/*******************************************************************************
+ * Perform AJAX request to check if email is in use after user exits field
+ ******************************************************************************/
+//$("registrationEmail").focusout(function (){
+//    $.ajax({
+//        url: "includes/check_email.php",
+//        type: "POST"
+//    }).always(function (data) {
+//        
+//    });
+//});
+
+/*******************************************************************************
  * Perform AJAX request to dynamically populate disease drop down
  ******************************************************************************/
 function getDiseases(bodySystem) {
@@ -76,7 +125,7 @@ function getDiseaseInfo(bodySystem) {
 /*******************************************************************************
  * AJAX event handler for populating disease info from database. Information is
  * dynamically sent to PHP using URL parameters I.e '?q='
- * Data is returned as JSON object and parsed
+ * Data is returned as a JavaScript object and parsed
  ******************************************************************************/
 function getDiseaseInfoNew(diseaseId) {
     
@@ -125,7 +174,11 @@ function clearFormNew(){
 }
 
 /*******************************************************************************
- * url not right yet
+ * Function is called when user clicks the Submit button on the new_disease
+ * page. A JavaScript object is created using the values in the form fields.
+ * If the user has selected a disease from the dropdown, this function will call
+ * editDisease(), otherwise it will pass the object to create_disease using an
+ * AJAX request, and display the results to the user.
  ******************************************************************************/
 function createDisease(){
     
@@ -178,7 +231,10 @@ function createDisease(){
     }
 }
 /*******************************************************************************
- * 
+ * This function is called when the user has selected a disease from the drop-down
+ * list. The same JavaScript object created from createDisease() is passed to a 
+ * different PHP file, edit_disease. The results of the AJAX request are displayed
+ * to the user.
  ******************************************************************************/
 function editDisease(){
     $.ajax({
@@ -210,7 +266,10 @@ function editDisease(){
         }
     });
 }
-
+/*******************************************************************************
+ *  Accepts one parameter to be the contents of the alert div. Formatted
+ *  string is returned   
+ ******************************************************************************/
 function formatSuccess(message){
     var temp = "<div class=\"alert alert-success\" id=\"successMsg\">";
     temp += message;
@@ -225,7 +284,11 @@ function formatError(message){
     
     return temp;
 }
-
+/*******************************************************************************
+ *  Called when the user clicks the logout link from the dropdown menu in the nav.
+ *  User's logged_in SESSION value is unset, which automatically redirects user
+ *  to login.php due to page authorization.   
+ ******************************************************************************/
 $("#logout").click(function(e){
     $.ajax({
         url: "includes/logout.php",

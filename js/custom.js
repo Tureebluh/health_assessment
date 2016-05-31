@@ -32,7 +32,7 @@ window.fbAsyncInit = function() {
 function statusChangeCallback(response) {
     if (response.status === 'connected') {
         // Logged into your app and Facebook.
-        FB.api('/me', 'fields=email', function(userInfo){
+        FB.api('/me', {fields: 'email'}, function(userInfo){
             email = { email: userInfo.email };
         });
         

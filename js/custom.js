@@ -297,9 +297,11 @@ function formatError(message){
  *  User's logged_in SESSION value is unset, which automatically redirects user
  *  to login.php due to page authorization.   
  ******************************************************************************/
-$("#logout").click(function(e){
+$("#logout").click(function(){
     $.ajax({
         url: "includes/logout.php",
         type: "POST"
+    }).success(function (){
+        window.location.href = "index.php";
     });
 });

@@ -17,7 +17,7 @@
                                     }
                                 }
                         ?>
-                        <li><a href="" id="logout">Logout</a></li>
+                        <li><a href="#" id="logout">Logout</a></li>
                     </ul>
                 </div>
             </li>

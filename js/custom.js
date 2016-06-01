@@ -43,7 +43,7 @@ window.fbAsyncInit = function() {
 }(document, 'script', 'facebook-jssdk'));
 
 function logInUser(){
-    FB.api('/me', function(userInfo){
+    FB.api('/me', {fields: 'email'}, function(userInfo){
         email = { email: userInfo.email };
         $.ajax({
             url: "includes/login.php",

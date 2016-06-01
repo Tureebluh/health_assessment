@@ -113,7 +113,7 @@ function getDiseasesNew(bodySystem) {
 }
 /*******************************************************************************
  * AJAX event handler for populating disease info from database. Information is
- * dynamically sent to PHP using URL parameters I.e '?q='
+ * dynamically sent to PHP using URL parameters I.e '?q=1234'
  ******************************************************************************/
 function getDiseaseInfo(bodySystem) {
     
@@ -294,8 +294,8 @@ function formatError(message){
 }
 /*******************************************************************************
  *  Called when the user clicks the logout link from the dropdown menu in the nav.
- *  User's logged_in SESSION value is unset, which automatically redirects user
- *  to login.php due to page authorization.   
+ *  User's logged_in SESSION value is unset. Forced redirect with JS on successful
+ *  logout.   
  ******************************************************************************/
 $("#logout").click(function(){
     $.ajax({

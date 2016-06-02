@@ -37,17 +37,6 @@
 ?>
 <?php include("includes/header.php") ?>
 
-<style>
-	body {
-	background: url('img/heartMonitor.jpg');
-	background-repeat: no-repeat;
-	background-size: 100% auto;
-	background-color: black;
-	}
-</style>
-
-	
-	
     <div class="container login">
 	
         <div class="jumbotron">

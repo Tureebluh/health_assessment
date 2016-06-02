@@ -7,14 +7,6 @@
 	}
 ?>
 <?php include("includes/header.php") ?>
-
-<style>
-	body {
-		background: url('img/straws.jpg');
-		background-color: black;
-	}
-</style>
-
 <?php include("includes/navbar.php") ?>
 
 <div class="container-fluid">   

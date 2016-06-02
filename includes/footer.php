@@ -1,3 +1,9 @@
+    <footer class="footer">
+
+        <span>HealthAssessment 2016<small><sup>&trade;</sup></small><br> All Rights Reserved.</span>
+
+    </footer>
+
     <!-- JQuery Plugin -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 	
@@ -10,6 +16,6 @@
 	
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="js/ie10-viewport-bug-workaround.js"></script>
-	
+    
   </body>
 </html>

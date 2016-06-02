@@ -1,8 +1,9 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <div class="navbar-header text-muted">
-            <a class="pull-left" href="search_diseases.php">
-              <h1>HealthAssessment<small><sup>&trade;</sup></small></h1>
+        <div class="navbar-header">
+            <a class="navbar-brand" href="search_diseases.php">
+                <span id="navbarHeader">HealthAssessment<small><sup>&trade;</sup></small></span>
+                <span id="navbarHeart"><img src="favicon.ico" alt="heart"/></span>               
             </a>
         </div>
 

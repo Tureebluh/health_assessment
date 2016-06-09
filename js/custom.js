@@ -154,8 +154,7 @@ function getDiseaseInfoNew(diseaseId) {
             $.each(data, function(key, value){
                 if (key != "disease_id"){
                     $("#" + key).val(value);
-                    formKeys.push(key);
-                    console.log(key + " " + value); 
+                    formKeys.push(key); 
                 }
             });
             getDiseaseInfoNewCount++;
@@ -208,7 +207,7 @@ function createDisease(){
     if( $("#newDiseaseDD").val() !== "default" ) {
         //editing a disease
         editDisease();
-    } else {
+    } else if ($("#disease_name").val() != ""){
         //creating a disease
         $.post(
             "includes/create_disease.php",
@@ -236,6 +235,16 @@ function createDisease(){
                 $("#newDiseaseLbl").after(failString);
             }
         });
+    } else {
+        if(failString != "") {
+            $("#errorMsg").remove();
+            failString = "";
+            failString += formatError("Error: Creation unsuccessful. Disease name is required.");
+            $("#newDiseaseLbl").after(failString);
+        } else {
+            failString += formatError("Error: Creation unsuccessful. Disease name is required.");
+            $("#newDiseaseLbl").after(failString);
+        }
     }
 }
 /*******************************************************************************
@@ -279,6 +288,8 @@ function editDisease(){
  *  string is returned   
  ******************************************************************************/
 function formatSuccess(message){
+    $("#errorMsg").remove();
+    $("#successMsg").remove();
     var temp = "<div class=\"alert alert-success\" id=\"successMsg\">";
     temp += message;
     temp += "</div>";
@@ -286,6 +297,8 @@ function formatSuccess(message){
     return temp;
 }
 function formatError(message){
+    $("#errorMsg").remove();
+    $("#successMsg").remove();
     var temp = "<div class=\"alert alert-danger\" id=\"errorMsg\">";
     temp += message;
     temp += "</div>";

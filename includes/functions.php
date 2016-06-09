@@ -307,7 +307,7 @@
         //Escape all user input
         $safe_email = mysql_prep($email);
 
-        $query  = "SELECT * ";
+        $query  = "SELECT user_id, username, password, email, admin ";
         $query .= "FROM users ";
         $query .= "WHERE email = '{$safe_email}' ";
         $query .= "LIMIT 1";

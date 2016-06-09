@@ -1,0 +1,203 @@
+/************************
+*
+* HTML/HEADER/BODY/FOOTER
+*
+*************************/
+html {
+   min-height: 100%;
+   position: relative;
+}
+body {
+    min-height: 100%;
+    margin-bottom: 2em;
+    background: url('../img/heartMonitor.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-color: black;
+}
+.footer {
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    min-width: 100%;
+    height: 3em;
+    background-color: transparent;
+    font-size: 1.2em;
+    color: #F0F0F0;
+}
+
+
+/************************
+*
+*       JUMBOTRON
+*
+*************************/
+.jumbotron {
+    color: #F0F0F0;
+    padding-top: 2em;
+    background: transparent;
+}
+.jumbotron > h1 {
+    text-align: left;
+    padding-left: 2em;
+}
+.jumbotron > p {
+    text-align: right;
+    padding-top: 2em;
+    padding-right: 6em;
+}
+
+
+/************************
+*
+*    LOGIN/REG FORM
+*
+*************************/
+.login {
+    max-width: 80em;
+}
+.form-signin {
+    max-width: 23em;
+    margin: 10em auto;
+    padding: 1em;
+    padding-top: 0.1em;
+    background: white;
+}
+.form-signin-heading {
+    font-style: "Georgia", serif;
+    font-weight: bold;
+    color: rgb(40, 130, 220);
+    text-align: center;
+    padding: 0.3em;
+}
+.checkbox {
+    font-weight: normal;
+    color: rgb(40, 130, 220);
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;  
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.form-signin > .link {
+    padding-top: 1em;
+    text-align: center;
+}
+a:link {
+    text-decoration: none;
+}
+#fbLogin {
+    margin-top: 1em;
+}
+#registrationLink {
+    font-weight: bold;  
+}
+
+/************************
+*
+*       NAVIGATION
+*
+*************************/
+.navbar {
+    background-color: rgba(1,1,1,0);
+    border: none;
+}
+.navbar-header {
+    font-family: "Georgia", serif;
+}
+#navbarHeader {
+    font-size: 2em;
+    color: #F0F0F0;
+}
+.user_display {
+    padding-top: 0.5em;
+    padding-right: 0.5em;
+    font-family: "Georgia", serif;
+    font-size: 1.5em;
+}
+#user_dropdown {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    padding-left: 1em;
+}
+
+
+/**************************
+*
+*     BS/DISEASE PANEL
+*
+**************************/
+.dropdown_panel {
+    margin-top: 10%;
+    min-height: 30em;
+    background: rgba(0, 0, 0, 0.3);
+}
+.bs_dropdown {
+    margin-top: 1em;
+}
+.bs_heading {
+    color: #F0F0F0;
+}
+
+/************************
+*
+*      CONTENT PANEL
+*
+*************************/
+.content_panel {
+    max-width: 100%;
+    background: rgba(81, 183, 219, 0);
+    margin-top: 5%;
+}
+.disease_info {
+    font-style: "Georgia", serif;
+    font-weight: bold;
+    background: rgba(1, 1, 1, 0);   
+}
+.disease_info h1 {
+    color: #f0f0f0;
+    text-align: center;
+    font-size: 5em;
+}
+.disease_info th {
+    background: rgba(1, 1, 1, .5);
+    text-align: center;
+    color: #F0F0F0;
+}
+.disease_info tr {
+    background: rgba(1, 1, 1, .3);
+}
+
+
+/************************
+*
+*    NEW DISEASE FORM
+*
+*************************/
+#newDiseaseDD {
+    margin-top: 1em;
+}
+#newDiseaseLbl {
+    color: #F0F0F0;
+}
+.create_disease h1 {
+    text-align: center;
+}
+

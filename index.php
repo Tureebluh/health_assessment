@@ -6,7 +6,7 @@
 	if( isset( $_SESSION["logged_in"]) ){
 		redirect_to("search_diseases.php");
 	}
-?> 
+?>   
 <?php 
         //If user actually submits the page
 	if(isset($_POST["submit"])){

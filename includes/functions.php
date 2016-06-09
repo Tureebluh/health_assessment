@@ -28,7 +28,7 @@
         }
         $temp = $result;
         $result = "";
-        return $temp;
+        return $temp; 
     }
 
     function disease_info( $disease=[] ) {

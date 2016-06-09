@@ -297,7 +297,7 @@ function formatSuccess(message){
     return temp;
 }
 function formatError(message){
-    $("#errorMsg").remove();
+    $("#errorMsg").remove(); 
     $("#successMsg").remove();
     var temp = "<div class=\"alert alert-danger\" id=\"errorMsg\">";
     temp += message;

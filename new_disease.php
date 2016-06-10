@@ -23,10 +23,10 @@
 
 <div class="container create_disease">
     <form method="post">
-        <h1 id="newDiseaseLbl">Create New Disease</h1>
+        <h1 class="newDiseaseLbls">Create New Disease</h1>
         
         <div class="form-group">
-            <label for="newBodySystem" class="sr-only">Body System</label>
+            <label for="newBodySystem" class="newDiseaseLbls">Body System</label>
             <select class="form-control" name="body_system" id="newBodySystem" onchange="getDiseasesNew(this.value)">
                 <option value="default">Select System</option>
                 <option value="1">Cardiac</option>
@@ -44,52 +44,52 @@
         </div>
         
         <div class="form-group">
-            <label for="disease_name" class="sr-only">Disease Name</label>
+            <label for="disease_name" class="newDiseaseLbls">Disease Name</label>
             <input class="form-control" name="disease_name" id="disease_name" placeholder="Disease name" type="text">
         </div>
         
         <div class="form-group">
-            <label for="subjective" class="sr-only">Subjective</label>
+            <label for="subjective" class="newDiseaseLbls">Subjective</label>
             <input class="form-control" name="subjective" id="subjective" placeholder="Subjective" type="text">
         </div>
         
         <div class="form-group">    
-            <label for="objective" class="sr-only">Objective</label>
+            <label for="objective" class="newDiseaseLbls">Objective</label>
             <input class="form-control" name="objective" id="objective" placeholder="Objective" type="text">
         </div>
         
         <div class="form-group">
-            <label for="icd_codes" class="sr-only">ICD-10 Codes</label>
+            <label for="icd_codes" class="newDiseaseLbls">ICD-10 Codes</label>
             <input class="form-control" name="icd_codes" id="icd_codes" placeholder="ICD-10 Codes" type="text">
         </div>
         
         <div class="form-group">
-            <label for="labs" class="sr-only">Labs</label>
+            <label for="labs" class="newDiseaseLbls">Labs</label>
             <input class="form-control" name="labs" id="labs" placeholder="Labs" type="text">
         </div>
         
         <div class="form-group">
-            <label for="diagnostics" class="sr-only">Diagnostics</label>
+            <label for="diagnostics" class="newDiseaseLbls">Diagnostics</label>
             <input class="form-control" name="diagnostics" id="diagnostics" placeholder="Diagnostics" type="text">
         </div>
         
         <div class="form-group">
-            <label for="referral" class="sr-only">Referrals</label>
+            <label for="referral" class="newDiseaseLbls">Referrals</label>
             <input class="form-control" name="referral" id="referral" placeholder="Referral" type="text">
         </div>
         
         <div class="form-group">
-            <label for="medication" class="sr-only">Medications</label>
+            <label for="medication" class="newDiseaseLbls">Medications</label>
             <input class="form-control" name="medication" id="medication" placeholder="Medications" type="text">
         </div>
         
         <div class="form-group">
-            <label for="patient_ed" class="sr-only">Patient Education</label>
+            <label for="patient_ed" class="newDiseaseLbls">Patient Education</label>
             <input class="form-control" name="patient_ed" id="patient_ed" placeholder="Patient Education" type="text">
         </div>
         
         <div class="form-group">
-            <label for="follow_up" class="sr-only">Follow-up</label>
+            <label for="follow_up" class="newDiseaseLbls">Follow-up</label>
             <input class="form-control" name="follow_up" id="follow_up" placeholder="Follow-up" type="text">
         </div>
         

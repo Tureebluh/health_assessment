@@ -323,6 +323,27 @@
         }
     }
 
+    function email_exist($email){
+        global $dbconn;
+        
+        //Escape all user input
+        $safe_email = mysql_prep($email);
+        
+        $query  = "SELECT COUNT(1) ";
+        $query .= "FROM users ";
+        $query .= "WHERE email = '{$safe_email}' ";
+        
+        $result_set = mysqli_query($dbconn, $query);
+        
+        confirm_query($result_set);
+        
+        if($result = mysqli_fetch_assoc($result_set)) {
+            mysqli_free_result($result_set);
+            mysqli_close($dbconn);
+            return json_encode($result);
+        }
+    }
+    
     function find_diseases($bodySystem) {
         global $dbconn;
 

@@ -191,10 +191,11 @@ a:link {
 *    NEW DISEASE FORM
 *
 *************************/
-#newDiseaseDD {
-    margin-top: 1em;
+#diseasesDDNew {
+    margin-top: .3em;
 }
-#newDiseaseLbl {
+
+.newDiseaseLbls {
     color: #F0F0F0;
 }
 .create_disease h1 {

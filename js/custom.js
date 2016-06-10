@@ -57,15 +57,48 @@ function logInUser(){
 /*******************************************************************************
  * Perform AJAX request to check if email is in use after user exits field
  ******************************************************************************/
-//$("registrationEmail").focusout(function (){
-//    $.ajax({
-//        url: "includes/check_email.php",
-//        type: "POST"
-//    }).always(function (data) {
-//        
-//    });
-//});
+$("#registrationEmail").focusout(function (){
+    if( $("#registrationEmail").val().indexOf("@") !== -1 ){
+        if ( $("#registrationEmail").val().indexOf("@") !== $("#registrationEmail").val().length -1 ) {
+            checkEmailExist();
+        }
+        displayError("Email address not valid.<br>Example: email@email.com", "#registrationHeader");
+        registrationEmailError();
+    } else {
+        
+        displayError("Email address not valid.<br>Example: email@email.com", "#registrationHeader");
+        registrationEmailError();
+    }  
+});
+$("#registrationPassword").focusout(function () {
+    
+});
 
+function checkEmailExist() {
+    var email = { email: $("#registrationEmail").val() };
+    $.ajax({
+        url: "includes/check_email.php",
+        type: "POST",
+        data: email,
+        dataType: "json"
+    }).always(function (data) {
+        $.each(data, function(key, value){
+            if(key === "COUNT(1)"){
+                if(value === "1"){
+                    //Email is taken
+                    
+                    displayError("Email address already in use.<br><a href='index.php'>Back to login page?</a>", "#registrationHeader");
+
+                    registrationEmailError();
+                } else {
+                    //Email is not taken
+                    $("#errorMsg").remove();
+                    registrationEmailSuccess();
+                }
+            }
+        });
+    });
+}
 /*******************************************************************************
  * Perform AJAX request to dynamically populate disease drop down
  ******************************************************************************/
@@ -207,44 +240,19 @@ function createDisease(){
     if( $("#newDiseaseDD").val() !== "default" ) {
         //editing a disease
         editDisease();
-    } else if ($("#disease_name").val() != ""){
+    } else if ($("#disease_name").val() !== ""){
         //creating a disease
         $.post(
             "includes/create_disease.php",
             formData
         ).success(function () {
-            if(successString != "") {
-                $("#successMsg").remove();
-                successString = "";
-                successString += formatSuccess("Successfully created disease.");
-                $("#newDiseaseLbl").after(successString);
-                getDiseasesNew( $("#newBodySystem").val() );
-            } else {
-                successString += formatSuccess("Successfully created disease.");
-                $("#newDiseaseLbl").after(successString);
-                getDiseasesNew( $("#newBodySystem").val() );
-            }
+            displaySuccess("Successfully created disease.", "#newDiseaseLbl");
+            getDiseasesNew( $("#newBodySystem").val() );
         }).fail(function (){
-            if(failString != "") {
-                $("#errorMsg").remove();
-                failString = "";
-                failString += formatError("Error: Creation unsuccessful.");
-                $("#newDiseaseLbl").after(failString);
-            } else {
-                failString += formatError("Error: Creation unsuccessful.");
-                $("#newDiseaseLbl").after(failString);
-            }
+            displayError("Creation unsuccessful.", "#newDiseaseLbl");
         });
     } else {
-        if(failString != "") {
-            $("#errorMsg").remove();
-            failString = "";
-            failString += formatError("Error: Creation unsuccessful. Disease name is required.");
-            $("#newDiseaseLbl").after(failString);
-        } else {
-            failString += formatError("Error: Creation unsuccessful. Disease name is required.");
-            $("#newDiseaseLbl").after(failString);
-        }
+        displayError("Creation unsuccessful. Disease name is required.", "#newDiseaseLbl");       
     }
 }
 /*******************************************************************************
@@ -260,50 +268,49 @@ function editDisease(){
         data: formData,
         cache: false
     }).success(function () {
-        if(successString != "") {
-            $("#successMsg").remove();
-            successString = "";
-            successString += formatSuccess("Successfully edited disease.");
-            $("#newDiseaseLbl").after(successString);
-            getDiseasesNew( $("#newBodySystem").val() );
-        } else {
-            successString += formatSuccess("Successfully edited disease.");
-            $("#newDiseaseLbl").after(successString);
-            getDiseasesNew( $("#newBodySystem").val() );
-        }
+        displaySuccess("Successfully edited disease.", "#newDiseaseLbl" );  
+        getDiseasesNew( $("#newBodySystem").val() );
     }).fail(function () {
-        if(failString != "") {
-            $("#errorMsg").remove();
-            failString = "";
-            failString += formatError("Error: Edit unsuccessful.");
-            $("#newDiseaseLbl").after(failString);
-        } else {
-            failString += formatError("Error: Edit unsuccessful.");
-            $("#newDiseaseLbl").after(failString);
-        }
+        displayError("Edit unsuccessful.", "#newDiseaseLbl");
     });
 }
+
 /*******************************************************************************
  *  Accepts one parameter to be the contents of the alert div. Formatted
  *  string is returned   
  ******************************************************************************/
-function formatSuccess(message){
+function displaySuccess(message, target){
     $("#errorMsg").remove();
     $("#successMsg").remove();
-    var temp = "<div class=\"alert alert-success\" id=\"successMsg\">";
-    temp += message;
-    temp += "</div>";
-    
-    return temp;
+
+    successString = "<div class=\"alert alert-success\" id=\"successMsg\">";
+    successString += message;
+    successString += "</div>";
+    $(target).after(successString);
 }
-function formatError(message){
-    $("#errorMsg").remove(); 
+function displayError(message, target){
+    $("#errorMsg").remove();
     $("#successMsg").remove();
-    var temp = "<div class=\"alert alert-danger\" id=\"errorMsg\">";
-    temp += message;
-    temp += "</div>";
-    
-    return temp;
+
+    failString = "<div class=\"alert alert-danger\" id=\"errorMsg\">";
+    failString += message;
+    failString += "</div>";
+    $(target).after(failString);
+}
+
+function registrationEmailError(){
+    $("#emailFormGroup").removeClass("has-success");
+    $("#emailFormGroup").addClass("has-error");  
+    $("#registrationEmail").css('color', 'red');
+    $("#emailValidationSpan").removeClass("glyphicon-ok");
+    $("#emailValidationSpan").addClass("glyphicon-remove");
+}
+function registrationEmailSuccess(){
+    $("#emailFormGroup").removeClass("has-error");
+    $("#emailFormGroup").addClass("has-success");
+    $("#registrationEmail").css('color', 'green');
+    $("#emailValidationSpan").removeClass("glyphicon-remove");
+    $("#emailValidationSpan").addClass("glyphicon-ok");
 }
 /*******************************************************************************
  *  Called when the user clicks the logout link from the dropdown menu in the nav.

@@ -2,7 +2,7 @@
 <?php require_once("functions.php") ?>
 <?php
     echo "<span class=\"diseasesDD_new\" id=\"diseasesDDNew\">
-        <label for=\"newDiseaseDD\" class=\"sr-only\"id=\"newDiseaseLbl\">Diseases</label>
+        <label for=\"newDiseaseDD\" class=\"newDiseaseLbls\">Diseases</label>
         <select class=\"form-control\" id=\"newDiseaseDD\" name=\"disease\" onchange=\"getDiseaseInfoNew(this.value)\">";
     
     $q = intval($_GET['q']);

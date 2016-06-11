@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Declare GLOBAL variables
+ * Declare/initialize GLOBAL variables
  ******************************************************************************/
 var getDiseasesCount = 0;
 var getDiseasesNewCount = 0;
@@ -10,6 +10,15 @@ var formData;
 var successString = "";
 var failString = "";
 var email = "";
+var displayErrorBool = false;
+var displaySuccessBool = false;
+var passwordLength = false;
+var passwordLetter = false;
+var passwordCapital = false;
+var passwordNumber = false;
+var passwordValidated = false;
+var emailValidated = false;
+var confirmPasswordValidated = false;
 /*******************************************************************************
  * Functions required for Facebook Login
  ******************************************************************************/
@@ -33,7 +42,7 @@ window.fbAsyncInit = function() {
       version    : 'v2.6'
     });
 };
-
+//Code for downloading facebook SDK
 (function(d, s, id){
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) {return;}
@@ -42,6 +51,10 @@ window.fbAsyncInit = function() {
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
+/*******************************************************************************
+ * Perform AJAX request to set user email and logged_in variable
+ * Redirect to search_diseases.php with JavaScript on success
+ ******************************************************************************/
 function logInUser(){
     FB.api('/me', {fields: 'email'}, function(userInfo){
         email = { email: userInfo.email };
@@ -58,23 +71,34 @@ function logInUser(){
  * Perform AJAX request to check if email is in use after user exits field
  ******************************************************************************/
 $("#registrationEmail").focusout(function (){
+    //Returns the index of the character passed in, otherwise it returns -1
+    //if value of email returns back something other than -1, it contains an @
     if( $("#registrationEmail").val().indexOf("@") !== -1 ){
+        //if the index returned is equal to the length of the users email, it would not be a valid email
+        //these are very basic validations because emails vary greatly. bootstrap offers built in validation
+        //on top of this when the user tries to submit
         if ( $("#registrationEmail").val().indexOf("@") !== $("#registrationEmail").val().length -1 ) {
             checkEmailExist();
+        } else {
+            //displayError(message, target element);
+            displayError("Email address not valid.<br>Example: email@email.com", "#registrationHeader");
+            //indicates errors to users using the input field colors
+            registrationEmailError();
+            emailValidated = false;
         }
-        displayError("Email address not valid.<br>Example: email@email.com", "#registrationHeader");
-        registrationEmailError();
     } else {
         
         displayError("Email address not valid.<br>Example: email@email.com", "#registrationHeader");
         registrationEmailError();
+        emailValidated = false;
     }  
 });
-$("#registrationPassword").focusout(function () {
-    
-});
-
+/*******************************************************************************
+ * Check if email exist when user exits email field using AJAX request.
+ * JavaScript object is returned with a key of COUNT(1) and a value of 1, or 0.
+ ******************************************************************************/
 function checkEmailExist() {
+    //Initialize email with value of email input
     var email = { email: $("#registrationEmail").val() };
     $.ajax({
         url: "includes/check_email.php",
@@ -86,21 +110,193 @@ function checkEmailExist() {
             if(key === "COUNT(1)"){
                 if(value === "1"){
                     //Email is taken
-                    
                     displayError("Email address already in use.<br><a href='index.php'>Back to login page?</a>", "#registrationHeader");
-
                     registrationEmailError();
+                    emailValidated = false;
                 } else {
                     //Email is not taken
                     $("#errorMsg").remove();
                     registrationEmailSuccess();
+                    emailValidated = true;
                 }
             }
         });
     });
 }
 /*******************************************************************************
- * Perform AJAX request to dynamically populate disease drop down
+ * Removes success indicators from email field and adds errors.
+ ******************************************************************************/
+function registrationEmailError(){
+    $("#emailFormGroup").removeClass("has-success");
+    $("#emailValidationSpan").removeClass("glyphicon-ok");
+    $("#emailFormGroup").addClass("has-error");  
+    $("#registrationEmail").css('color', '#a94442');
+    $("#emailValidationSpan").addClass("glyphicon-remove");
+}
+/*******************************************************************************
+ * Removes error indicators from email field and adds success.
+ ******************************************************************************/
+function registrationEmailSuccess(){
+    $("#emailFormGroup").removeClass("has-error");
+    $("#emailValidationSpan").removeClass("glyphicon-remove");
+    $("#emailFormGroup").addClass("has-success");
+    $("#registrationEmail").css('color', '#3c763d');
+    $("#emailValidationSpan").addClass("glyphicon-ok");
+}
+/*******************************************************************************
+ *                              Password functions
+ ******************************************************************************/
+//When user focuses into password field, show password requirements div
+$("#registrationPassword").focusin(function (){
+    $("#passwordRequirements").show();
+//When user focuses out of password field, hide password requirements div    
+}).focusout(function (){
+    $("#passwordRequirements").hide();
+//While user is typing password, run validation checks AFTER each key press    
+}).keyup(function (){
+    //$("#registrationPassword").val()
+    var password = $(this).val();
+    
+    //Check password length
+    if( password.length < 8 ){
+        //Show error for LI and change validation variable to false
+        registrationLiError("#length");
+        passwordLength = false;
+    } else {
+        //Show success for LI and change validation variable to true
+        registrationLiSuccess("#length");
+        passwordLength = true;
+    }
+    //Check for at least one letter
+    if( password.match(/[A-z]/) ){
+        registrationLiSuccess("#letter");
+        passwordLetter = true;
+    } else {
+        registrationLiError("#letter");
+        passwordLetter = false;
+    }
+    //Check for at least one uppercase letter
+    if( password.match(/[A-Z]/) ){
+        registrationLiSuccess("#capital");
+        passwordCapital = true;
+    } else {
+        registrationLiError("#capital");
+        passwordCapital = false;
+    }
+    if( password.match(/[0-9]/) ){
+        registrationLiSuccess("#number");
+        passwordNumber = true;
+    } else {
+        registrationLiError("#number");
+        passwordNumber = false;
+    }
+    if(passwordLength && passwordLetter && passwordCapital && passwordNumber) {
+        registrationPasswordSuccess();
+        passwordValidated = true;
+    } else {
+        registrationPasswordError();
+        passwordValidated = false;
+    }
+});
+/*******************************************************************************
+ * Removes success indicators from password field and adds errors.
+ ******************************************************************************/
+function registrationPasswordError(){
+    $("#passwordFormGroup").removeClass("has-success");
+    $("#passwordValidationSpan").removeClass("glyphicon-ok");
+    $("#passwordFormGroup").addClass("has-error");  
+    $("#registrationPassword").css('color', '#a94442');
+    $("#passwordRequirements").css('border-color', '#a94442');
+    $("#upTriangle").css('color', '#a94442');
+    $("#passwordValidationSpan").addClass("glyphicon-remove");
+}
+/*******************************************************************************
+ * Removes error indicators from password field and adds success.
+ ******************************************************************************/
+function registrationPasswordSuccess(){
+    $("#passwordFormGroup").removeClass("has-error");
+    $("#passwordValidationSpan").removeClass("glyphicon-remove");
+    $("#passwordFormGroup").addClass("has-success");
+    $("#registrationPassword").css('color', '#3c763d');
+    $("#passwordRequirements").css('border-color', '#3c763d');
+    $("#upTriangle").css('color', '#3c763d');
+    $("#passwordValidationSpan").addClass("glyphicon-ok");
+}
+//adds error indicators to target element (li)
+function registrationLiError(target) {
+    $(target).removeClass("glyphicon-ok").addClass("glyphicon-remove").css('color', '#a94442');
+}
+//adds success indicators to target element (li)
+function registrationLiSuccess(target) {
+    $(target).removeClass("glyphicon-remove").addClass("glyphicon-ok").css('color', '#3c763d');
+}
+
+$("#confirmPassword").keyup(function() {
+    if( $("#confirmPassword").val() === $("#registrationPassword").val() ) {
+        //The passwords match
+        confirmPasswordSuccess();
+        confirmPasswordValidated = true;
+    } else {
+        confirmPasswordError();
+        confirmPasswordValidated = false;
+    }
+});
+
+function attemptRegistration(){
+    var data = { email: $("#registrationEmail").val(), password: $("#registrationPassword").val() };
+    
+    $.ajax({
+        url: "includes/register.php",
+        type: "POST",
+        data: data,
+        dataType: "text"
+    }).always(function (data) {
+        if(data === "1"){
+            //successful
+            displaySuccess("Account successfully created! Redirecting to login screen.", "#registrationHeader");
+            setTimeout(redirectTo, 2500, "index.php");
+        } else {
+            //something went wrong
+        }
+    });
+}
+function checkValidation(){
+    if(confirmPasswordValidated && passwordValidated && emailValidated){
+         attemptRegistration();
+     } else if (!passwordValidated){
+         //User tried to submit with password validation failed
+         $("#registrationPassword").focus();
+     } else if (!emailValidated){
+         //User tried to submit with email validation failed
+         $("#registrationEmail").focus();
+     } else {
+         //User tried to submit with confirm password validation failed
+         $("#confirmPassword").focus();
+     } 
+}
+/*******************************************************************************
+ * Removes success indicators from confirm password field and adds errors.
+ ******************************************************************************/
+function confirmPasswordError(){
+    $("#confirmFormGroup").removeClass("has-success");
+    $("#confirmValidationSpan").removeClass("glyphicon-ok");
+    $("#confirmFormGroup").addClass("has-error");  
+    $("#confirmPassword").css('color', '#a94442');
+    $("#confirmValidationSpan").addClass("glyphicon-remove");
+}
+/*******************************************************************************
+ * Removes error indicators from confirm password field and adds success.
+ ******************************************************************************/
+function confirmPasswordSuccess(){
+    $("#confirmFormGroup").removeClass("has-error");
+    $("#confirmValidationSpan").removeClass("glyphicon-remove");
+    $("#confirmFormGroup").addClass("has-success");
+    $("#confirmPassword").css('color', '#3c763d');
+    $("#confirmValidationSpan").addClass("glyphicon-ok");
+}
+/*******************************************************************************
+ * Perform AJAX request to dynamically populate disease drop down. Bodysystem is
+ * sent as a URL parameter
  ******************************************************************************/
 function getDiseases(bodySystem) {
     
@@ -115,14 +311,14 @@ function getDiseases(bodySystem) {
             $(".diseasesDD").empty();
             $("#ddPanel").append(data);
         }
-        
     });
 }
 /*******************************************************************************
- * Perform AJAX request to dynamically populate disease drop down
+ * Perform AJAX request to dynamically populate disease drop down. Bodysystem is
+ * sent as a URL parameter.
  ******************************************************************************/
 function getDiseasesNew(bodySystem) {
-    
+    //resets button if user triggered form for edit
     if( $("#createDiseaseBtn").val() == "Edit Disease" ){
         $("#createDiseaseBtn").val("Create Disease");
         $("#newDiseaseLbl").text("Create New Disease");
@@ -139,7 +335,6 @@ function getDiseasesNew(bodySystem) {
             $(".diseasesDD_new").empty();
             clearFormNew();
             $("#newBodySystem").after(data);
-            
         }
         
     });
@@ -280,38 +475,36 @@ function editDisease(){
  *  string is returned   
  ******************************************************************************/
 function displaySuccess(message, target){
-    $("#errorMsg").remove();
-    $("#successMsg").remove();
+    if(displaySuccessBool !== false){
+       $("#successMsg").remove(); 
+    }
+    if(displayErrorBool !== false){
+        $("#errorMsg").remove();
+        displayErrorBool = false;
+    }   
 
     successString = "<div class=\"alert alert-success\" id=\"successMsg\">";
     successString += message;
     successString += "</div>";
     $(target).after(successString);
+    displaySuccessBool = true;
 }
 function displayError(message, target){
-    $("#errorMsg").remove();
-    $("#successMsg").remove();
-
+    if(displayErrorBool !== false){
+        $("#errorMsg").remove();
+    }
+    if(displaySuccessBool !== false){
+        $("#successMsg").remove();
+        displaySuccessBool = false;
+    }
+    
     failString = "<div class=\"alert alert-danger\" id=\"errorMsg\">";
     failString += message;
     failString += "</div>";
     $(target).after(failString);
+    displayErrorBool = true;
 }
 
-function registrationEmailError(){
-    $("#emailFormGroup").removeClass("has-success");
-    $("#emailFormGroup").addClass("has-error");  
-    $("#registrationEmail").css('color', 'red');
-    $("#emailValidationSpan").removeClass("glyphicon-ok");
-    $("#emailValidationSpan").addClass("glyphicon-remove");
-}
-function registrationEmailSuccess(){
-    $("#emailFormGroup").removeClass("has-error");
-    $("#emailFormGroup").addClass("has-success");
-    $("#registrationEmail").css('color', 'green');
-    $("#emailValidationSpan").removeClass("glyphicon-remove");
-    $("#emailValidationSpan").addClass("glyphicon-ok");
-}
 /*******************************************************************************
  *  Called when the user clicks the logout link from the dropdown menu in the nav.
  *  User's logged_in SESSION value is unset. Forced redirect with JS on successful
@@ -322,6 +515,10 @@ $("#logout").click(function(){
         url: "includes/logout.php",
         type: "POST"
     }).success(function (){
-        window.location.href = "index.php";
+        redirectTo("index.php");
     });
 });
+
+function redirectTo(path){
+    window.location.href = "" + path;
+}

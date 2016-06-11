@@ -39,10 +39,7 @@
 
     <div class="container login">
 	
-        <div class="jumbotron">
-                <h1>HealthAssessment<small><sup>&trade;</sup></small></h1> 
-                <p>Up-to-date treatment guidelines, right at your fingertips.</p> 
-        </div>
+        <?php include("includes/banner.php") ?>
 
         <form class="form-signin panel" method="post">
 

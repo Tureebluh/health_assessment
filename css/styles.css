@@ -46,6 +46,10 @@ body {
     padding-top: 2em;
     padding-right: 6em;
 }
+#banner {
+    font-size: 3em;
+    max-width: 100%;
+}
 
 
 /************************
@@ -61,7 +65,7 @@ body {
     margin: 10em auto;
     padding: 1em;
     padding-top: 0.1em;
-    background: white;
+    background: #F0F0F0;
 }
 .form-signin-heading {
     font-style: "Georgia", serif;
@@ -108,7 +112,34 @@ a:link {
 #registrationLink {
     font-weight: bold;  
 }
-
+.passwordReqs {
+    color: #a94442;
+    list-style-type: none;
+}
+#passwordRequirements {
+    display: block;
+    background: white;
+    position: absolute;
+    z-index: 5;
+    padding: 1em;
+    margin-left: -3.5em;
+    border-color: #a94442;
+    border-radius: 1em;
+    border-style: solid;
+    font-family: "Times New Roman", serif;
+    font-size: 1em;
+}
+#passwordRequirements {
+    display: none;
+}
+#upTriangle {
+    position:absolute;
+    color: #a94442;
+    font-size: 2em;
+    display: block;
+    margin-top: -1.6em;
+    margin-left: 6em;
+}
 /************************
 *
 *       NAVIGATION

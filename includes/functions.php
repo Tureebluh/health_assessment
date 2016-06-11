@@ -307,7 +307,7 @@
         //Escape all user input
         $safe_email = mysql_prep($email);
 
-        $query  = "SELECT user_id, username, password, email, admin ";
+        $query  = "SELECT user_id, password, email, admin ";
         $query .= "FROM users ";
         $query .= "WHERE email = '{$safe_email}' ";
         $query .= "LIMIT 1";
@@ -412,29 +412,6 @@
         }
     }
 
-    function register_user($username, $email, $password){
-        global $dbconn;
-
-        //Escape all user input
-        $safe_username = mysql_prep($username);
-        $safe_email = mysql_prep($email);
-        $safe_password = mysql_prep($password);
-        $encrypted_password = encrypt_password($safe_password);
-
-        $query  = "INSERT INTO users (";
-        $query .= "  username, password, email";
-        $query .= ") VALUES (";
-        $query .= "  '{$safe_username}', '{$encrypted_password}', '{$safe_email}'";
-        $query .= ")";
-        $result = mysqli_query($dbconn, $query);
-
-        if($result){
-                return true;
-        } else {
-                return false;
-        }
-    }
-
     function encrypt_password($password){
         //Encrypt password
         $hash_format = "$2y$10$";
@@ -495,25 +472,23 @@
         }
     }
 
-    function attempt_registration($username, $email, $password) {
-
-        $safe_username = mysql_prep($username);
+    function attempt_registration($email, $password) {
+        global $dbconn;
+        
         $safe_email = mysql_prep($email);
         $safe_password = mysql_prep($password);
-                
-        $user = find_user_by_email($email);
+        $encrypted_password = encrypt_password($safe_password);
 
-        if(!$user){
-                //No user found by email
-                if( register_user($safe_username, $safe_email, $safe_password) ) {
-                        //success
-                        return true;
-                } else {
-                        //something went wrong
-                        return false;
-                }
+        $query  = "INSERT INTO users (";
+        $query .= "  password, email";
+        $query .= ") VALUES (";
+        $query .= "  '{$encrypted_password}', '{$safe_email}'";
+        $query .= ")";
+        $result = mysqli_query($dbconn, $query);
+
+        if($result){
+                return true;
         } else {
-                //Email exist in database
                 return false;
         }
     }

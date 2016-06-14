@@ -20,9 +20,9 @@
     <script>
         //Check to see if user is connected through https. If not, redirect user.
         //Added as script in header to redirect before page loads.
-//        if (window.location.protocol != "https:") {
-//            window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
-//        }
+        if (window.location.protocol != "https:") {
+            window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+        }
         
     </script>
 

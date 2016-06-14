@@ -25,7 +25,7 @@
 
         <div id="passwordRequirements">
             <span id="upTriangle">&#9650;</span>
-            <h4>Password must meet the following requirements:</h4>
+            <h4><strong>Password must meet the following requirements:</strong></h4>
             <ul>
                 <li id="letter" class="passwordReqs glyphicon glyphicon-remove">&nbsp;At least <strong>one letter</strong></li><br>
                 <li id="capital" class="passwordReqs glyphicon glyphicon-remove">&nbsp;At least <strong>one capital letter</strong></li><br>

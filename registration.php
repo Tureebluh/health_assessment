@@ -23,12 +23,6 @@
             <span class="glyphicon form-control-feedback" id="emailValidationSpan"></span>
         </div>
 
-        <div class="form-group has-feedback" id="passwordFormGroup">
-            <label class="sr-only" for="inputPassword">Password</label>
-            <input type="password" id="registrationPassword" name="inputPassword" class="form-control" placeholder="Password" required>
-            <span class="glyphicon form-control-feedback" id="passwordValidationSpan"></span>
-        </div>
-        
         <div id="passwordRequirements">
             <span id="upTriangle">&#9650;</span>
             <h4>Password must meet the following requirements:</h4>
@@ -38,6 +32,12 @@
                 <li id="number" class="passwordReqs glyphicon glyphicon-remove">&nbsp;At least <strong>one number</strong></li><br>
                 <li id="length" class="passwordReqs glyphicon glyphicon-remove">&nbsp;Be at least <strong>8 characters</strong></li><br>
             </ul>
+        </div>
+        
+        <div class="form-group has-feedback" id="passwordFormGroup">
+            <label class="sr-only" for="inputPassword">Password</label>
+            <input type="password" id="registrationPassword" name="inputPassword" class="form-control" placeholder="Password" required>
+            <span class="glyphicon form-control-feedback" id="passwordValidationSpan"></span>
         </div>
 
         <div class="form-group has-feedback" id="confirmFormGroup">

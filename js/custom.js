@@ -392,7 +392,6 @@ function getDiseaseInfoNew(diseaseId) {
                 $.each(data, function(key, value){
                     if (key != "disease_id") {
                         $("#" + key).val(value);
-                        console.log(key + " " + value);
                     }
                 });
             }
@@ -471,8 +470,8 @@ function editDisease(){
 }
 
 /*******************************************************************************
- *  Accepts one parameter to be the contents of the alert div. Formatted
- *  string is returned   
+ *  Accepts two parameters. Message is to be the contents of the alert div.
+ *  Target is the element the alert div should be placed AFTER  
  ******************************************************************************/
 function displaySuccess(message, target){
     if(displaySuccessBool !== false){

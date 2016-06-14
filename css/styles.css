@@ -169,7 +169,44 @@ a:link {
     margin: 0;
     padding-left: 1em;
 }
-
+@media only screen and (max-width: 414px) {
+    .user_display {
+        margin-top: 2em;
+    }
+    .content_panel {
+        position: absolute;
+        min-width: 100%;
+        top: 30em;
+    }
+}
+@media only screen and (min-width: 415px) and (max-width: 767px) {
+    .user_display {
+        margin-top: 2em;
+    }
+    .content_panel {
+        position: absolute;
+        min-width: 100%;
+        top: 30em;
+    }
+}
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .user_display {
+        max-width: 45%;
+    }
+    .dropdown_panel {
+        min-width: 100%;
+    }
+    .dropdown_panel select {
+        max-width: 100%;
+    }
+    .content_panel {
+        position: absolute;
+        min-width: 100%;
+        top: 25em;
+    }
+    
+    
+}
 
 /**************************
 *
@@ -223,8 +260,8 @@ a:link {
 *    NEW DISEASE FORM
 *
 *************************/
-#diseasesDDNew {
-    margin-top: .3em;
+#newDiseaseDDLbl {
+    margin-top: 1em;
 }
 
 .newDiseaseLbls {
@@ -232,5 +269,8 @@ a:link {
 }
 .create_disease h1 {
     text-align: center;
+}
+#createDiseaseBtn {
+    margin-bottom: 3em;
 }
 

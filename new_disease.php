@@ -23,7 +23,7 @@
 
 <div class="container create_disease">
     <form method="post">
-        <h1 class="newDiseaseLbls">Create New Disease</h1>
+        <h1 class="newDiseaseLbls" id="newDiseaseLbl">Create New Disease</h1>
         
         <div class="form-group">
             <label for="newBodySystem" class="newDiseaseLbls">Body System</label>

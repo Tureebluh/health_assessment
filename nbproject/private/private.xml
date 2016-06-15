@@ -4,15 +4,9 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/wamp64/www/health_assessment/includes/header.php</file>
-            <file>file:/C:/wamp64/www/health_assessment/registration.php</file>
-            <file>file:/C:/wamp64/www/health_assessment/includes/body_systems.php</file>
-            <file>file:/C:/wamp64/www/health_assessment/includes/navbar.php</file>
-            <file>file:/C:/wamp64/www/health_assessment/includes/edit_disease.php</file>
-            <file>file:/C:/wamp64/www/health_assessment/search_diseases.php</file>
-            <file>file:/C:/wamp64/www/health_assessment/new_disease.php</file>
             <file>file:/C:/wamp64/www/health_assessment/js/custom.js</file>
             <file>file:/C:/wamp64/www/health_assessment/css/styles.css</file>
-            <file>file:/C:/wamp64/www/health_assessment/includes/diseasesDD_new.php</file>
+            <file>file:/C:/wamp64/www/health_assessment/index.php</file>
         </group>
     </open-files>
 </project-private>

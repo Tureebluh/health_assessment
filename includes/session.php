@@ -6,7 +6,7 @@
      * Adds Moved Permanently to header so HTTPS will remain with all future request
      * Run before session_start() because redirecting between http/https starts a new session
      ************************************************************************************/
-    if(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "off"){
+    if(empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "off" || $_SERVER['HTTP_X_FORWARDED_PROTO'] != "https"){
         $redirect = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         header('HTTP/1.1 301 Moved Permanently');
         header('Location: ' . $redirect);

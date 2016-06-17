@@ -25,7 +25,7 @@ var confirmPasswordValidated = false;
 function statusChangeCallback(response) {
     // Logged into app and Facebook.
     if (response.status === 'connected') {
-        logInUser();
+        logInFBUser();
     }
 }
 
@@ -55,11 +55,11 @@ window.fbAsyncInit = function() {
  * Perform AJAX request to set user email and logged_in variable
  * Redirect to search_diseases.php with JavaScript on success
  ******************************************************************************/
-function logInUser(){
+function logInFBUser(){
     FB.api('/me', {fields: 'email'}, function(userInfo){
         email = { email: userInfo.email };
         $.ajax({
-            url: "includes/login.php",
+            url: "includes/fblogin.php",
             type: "POST",
             data: email
         }).success(function () {
@@ -67,6 +67,46 @@ function logInUser(){
         });
     });
 }
+
+/*******************************************************************************
+ * Perform AJAX request to attempt login. If successful, redirectTo(search_diseases.php)
+ * otherwise, display error message to user. Password will be encrypted over HTTPS
+ ******************************************************************************/
+function logInUser(){
+    var data = { email: $("#loginEmail").val(), password: $("#loginPassword").val() };
+
+    $.ajax({
+        url: "includes/login.php",
+        type: "POST",
+        data: data,
+        dataType: "text"
+    }).always(function (data) {
+        if(data === "1"){
+            //successful
+            displaySuccess("Successful login. Redirecting...", "#loginHeader");
+            setTimeout(redirectTo, 1500, "search_diseases.php");
+        } else {
+            //something went wrong
+            displayError("Username/password not found.", "#loginHeader");
+        }
+    });
+}
+/*******************************************************************************
+ * Keypress events for login email and password fields. If user presses ENTER
+ * the condition has been met.
+ ******************************************************************************/
+$("#loginEmail").keypress(function(event) {
+    if(event.keyCode === 13 || event.which === 13){
+        $("#loginPassword").focus();
+    }
+});
+$("#loginPassword").keypress(function(event) {
+    if(event.keyCode === 13 || event.which === 13){
+        $("#loginBtn").click();
+    }
+});
+
+
 /*******************************************************************************
  * Perform AJAX request to check if email is in use after user exits field
  ******************************************************************************/
@@ -231,6 +271,10 @@ function registrationLiSuccess(target) {
     $(target).removeClass("glyphicon-remove").addClass("glyphicon-ok").css('color', '#3c763d');
 }
 
+/*******************************************************************************
+ * keyup event for confirmPassword field checks if password's are exactly equal.
+ * displays error or sucess to user using the field and glyphicons
+ ******************************************************************************/
 $("#confirmPassword").keyup(function() {
     if( $("#confirmPassword").val() === $("#registrationPassword").val() ) {
         //The passwords match
@@ -242,6 +286,10 @@ $("#confirmPassword").keyup(function() {
     }
 });
 
+/*******************************************************************************
+ * Perform AJAX request to attempt login. If successful, redirectTo(search_diseases.php)
+ * otherwise, display error message to user. Password will be encrypted over HTTPS
+ ******************************************************************************/
 function attemptRegistration(){
     var data = { email: $("#registrationEmail").val(), password: $("#registrationPassword").val() };
     

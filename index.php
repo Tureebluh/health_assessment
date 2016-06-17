@@ -7,34 +7,7 @@
 		redirect_to("search_diseases.php");
 	}
 ?>   
-<?php 
-        //If user actually submits the page
-	if(isset($_POST["submit"])){
-            
-            //Check database for email/password combo
-            $found_user = attempt_login($_POST["inputEmail"], $_POST["inputPassword"]);
 
-            //If not equal to false, user was found
-            if ($found_user){
-                    //Successful login
-                    //Set SESSION variables respectively
-                    $_SESSION["logged_in"] = true;
-                    $_SESSION["email"] = $found_user["email"];
-                    $_SESSION["admin"] = $found_user["admin"];
-                    redirect_to("search_diseases.php");
-            }else {
-                    //Failed login
-                    //Add error message to errors array
-                    $errors["no_login"] = "Username/password not found.";
-            }
-		
-	} else {
-		//GET REQUEST
-		$errors = array();
-		$email = "";
-	}
-
-?>
 <?php include("includes/header.php") ?>
 
     <div class="container login">
@@ -43,20 +16,17 @@
 
         <form class="form-signin panel" method="post">
 
-            <h2 class="form-signin-heading">Please Login</h2>
-
-            <!-- Display errors to user -->
-            <?php echo form_errors($errors);?>
+            <h2 id="loginHeader" class="form-signin-heading">Please Login</h2>
 
             <label for="inputEmail" class="sr-only">Email address</label>
-            <input type="email" name="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            <input type="email" name="inputEmail" id="loginEmail" class="form-control" placeholder="Email address" required autofocus>
 
             <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" name="inputPassword" class="form-control" placeholder="Password" required>
+            <input type="password" name="inputPassword" id="loginPassword" class="form-control" placeholder="Password" required>
 
-            <button class="btn btn-lg btn-primary btn-block" value="submit" name="submit" type="submit">Sign In</button>
+            <input class="btn btn-lg btn-primary btn-block" value="Sign In" name="submit" id="loginBtn" type="button" onclick="logInUser()"></input>
             
-            <hr id="fbLogin">
+            <hr id="loginHr">
             
             <fb:login-button scope="public_profile,email" onlogin="checkLoginState();" size="xlarge" id="fbLogin">
                 Login with Facebook

@@ -13,5 +13,7 @@
 		<option value="9">Reproductive</option>
 		<option value="10">Respiratory</option>
                 <option value="11">Health Maintenance</option>
+                <option value="12">Hematology</option>
+                <option value="22">Urology</option>
 	</select>
 </form>

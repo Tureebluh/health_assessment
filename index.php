@@ -33,8 +33,9 @@
             </fb:login-button>
 
             <div class="link">
-                    <span id="registrationLink">Don't have an account? <br> 
-                        <a href="registration.php"> Sign up! It's free! <span class="glyphicon glyphicon-arrow-right"></span></a><span>
+                <span id="registrationLink">Don't have an account? <br> 
+                    <a href="registration.php"> Sign up! It's free! <span class="glyphicon glyphicon-arrow-right"></span></a>  
+                </span>
             </div>	
         </form>
     </div> <!-- /container -->

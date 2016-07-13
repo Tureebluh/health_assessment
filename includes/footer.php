@@ -1,6 +1,6 @@
     <footer class="footer">
 
-        <span class="footer-text">HealthAssessment 2016<small><sup>&trade;</sup></small><br> All Rights Reserved.</span>
+        <span class="footer-text">HealthAssessment <span id="year"></span><small><sup>&trade;</sup></small><br> All Rights Reserved.</span>
 
     </footer>
 

@@ -10,8 +10,6 @@ var formData;
 var successString = "";
 var failString = "";
 var email = "";
-var displayErrorBool = false;
-var displaySuccessBool = false;
 var passwordLength = false;
 var passwordLetter = false;
 var passwordCapital = false;
@@ -521,35 +519,30 @@ function editDisease(){
  *  Accepts two parameters. Message is to be the contents of the alert div.
  *  Target is the element the alert div should be placed AFTER  
  ******************************************************************************/
-function displaySuccess(message, target){
-    if(displaySuccessBool !== false){
-       $("#successMsg").remove(); 
-    }
-    if(displayErrorBool !== false){
-        $("#errorMsg").remove();
-        displayErrorBool = false;
-    }   
+function displaySuccess(message, target){ 
 
-    successString = "<div class=\"alert alert-success\" id=\"successMsg\">";
+    successString = "<div class=\"alert alert-success\" id=\"successMsg\"";
+    successString += "style=\"display:none\">";
     successString += message;
     successString += "</div>";
     $(target).after(successString);
-    displaySuccessBool = true;
+    $("#successMsg").fadeIn(500);
+    setTimeout(removeElement, 2000, "#successMsg");
 }
 function displayError(message, target){
-    if(displayErrorBool !== false){
-        $("#errorMsg").remove();
-    }
-    if(displaySuccessBool !== false){
-        $("#successMsg").remove();
-        displaySuccessBool = false;
-    }
-    
-    failString = "<div class=\"alert alert-danger\" id=\"errorMsg\">";
+
+    failString = "<div class=\"alert alert-danger\" id=\"errorMsg\"";
+    failString += "style=\"display:none\">";
     failString += message;
     failString += "</div>";
     $(target).after(failString);
-    displayErrorBool = true;
+    $("#errorMsg").fadeIn(500);
+    setTimeout(removeElement, 2000, "#errorMsg");
+}
+function removeElement(target){
+    $(target).fadeOut(500, function () {
+        remove();
+    });
 }
 
 /*******************************************************************************
@@ -566,6 +559,17 @@ $("#logout").click(function(){
     });
 });
 
+/*******************************************************************************
+ *  Redirect to the given path   
+ ******************************************************************************/
 function redirectTo(path){
     window.location.href = "" + path;
 }
+
+/*******************************************************************************
+ *  Prints the current year to the footer dynamically. (Will never have to be changed)   
+ ******************************************************************************/
+$(function(){
+    var currentYear = (new Date).getFullYear();
+    $("#year").html(currentYear);
+});
